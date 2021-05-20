@@ -1,23 +1,30 @@
 package com.chat.social.entity;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+@Table(name = "publications")
+@Entity
 public class Publication {
     @Column
     @NotNull(message = "message should not be empty")
     private String message;
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    @NotNull(message = "profileId should not be empty")
+    @NotNull(message = "publicationId should not be empty")
     @Column
     private int publicationId;
-    @Column
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "profileId")
     private Profile profile;
 
     public Publication(){

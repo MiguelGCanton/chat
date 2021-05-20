@@ -27,7 +27,7 @@ public class Profile {
     @Column
     private int profileId;
     @Column
-    @OneToMany(cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "profile", cascade=CascadeType.ALL)
     private List<Publication> publications;
 
     public Profile(String name, int orderId, List<Publication> publications) {
