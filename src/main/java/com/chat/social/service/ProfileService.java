@@ -1,6 +1,7 @@
 package com.chat.social.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.chat.social.entity.Profile;
 import com.chat.social.repository.ProfileRepository;
@@ -16,6 +17,10 @@ public class ProfileService {
 
     public List<Profile> getProfiles(){
         return profileRepository.findAll();
+    }
+
+    public Optional<Profile> getProfileById(int id){
+        return profileRepository.findById(id);
     }
 
     public Profile createProfile(Profile profile){
