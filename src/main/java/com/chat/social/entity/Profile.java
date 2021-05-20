@@ -7,12 +7,16 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Table(name = "profiles")
 @Entity
@@ -27,7 +31,8 @@ public class Profile {
     @Column
     private int profileId;
     @Column
-    @OneToMany(mappedBy = "profile", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "profile", cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<Publication> publications;
 
     public Profile(String name, int orderId, List<Publication> publications) {
@@ -39,6 +44,11 @@ public class Profile {
     public Profile(){
 
     }
+
+    public Profile(String name){
+        this.name = name;
+    }
+
 
     public String getName() {
         return name;
@@ -55,8 +65,12 @@ public class Profile {
     public void setProfileId(int profileId) {
         this.profileId = profileId;
     }
-
+    
     public List<Publication> getPublications() {
+
+        if(this.publications==null){
+            return new ArrayList<Publication>();
+        }
         List<Publication> list = new ArrayList<>(this.publications.size());
         list.addAll(this.publications);
         return list;

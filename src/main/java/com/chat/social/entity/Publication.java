@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Table(name = "publications")
 @Entity
 public class Publication {
@@ -25,6 +28,7 @@ public class Publication {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profileId")
+    @JsonBackReference
     private Profile profile;
 
     public Publication(){
@@ -49,12 +53,17 @@ public class Publication {
     public void setPublicationId(int publicationId) {
         this.publicationId = publicationId;
     }
+    @JsonIgnoreProperties
     public Profile getProfile() {
         return profile;
     }
 
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
 
-    
+
+     
 
 
 
