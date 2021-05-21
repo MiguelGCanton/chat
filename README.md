@@ -9,9 +9,7 @@ in the docker-commands.txt you will find the necesary commands to start the data
 
 ### Guides
 
-the sistem has the next endpoints:
-
-to see the documentation, check socialNetwork.raml
+check socialNetwork.raml to see the api documentation
 
 ## Request examples
 
