@@ -1,0 +1,3 @@
+docker pull mysql
+
+docker run --name socialnetwork -p 3306:3306 -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=social_network -e MYSQL_USER=spring -e MYSQL_PASSWORD=password -d mysql 
