@@ -11,15 +11,22 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Table(name = "profiles")
 @Entity
+//@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "profileId")
 public class Profile {
 
     @Column
@@ -35,10 +42,26 @@ public class Profile {
     @JsonManagedReference
     private List<Publication> publications;
 
+    @Column
+    @JoinColumn(name = "profile_profile_id")
+    @ManyToMany(fetch = FetchType.LAZY)
+  //  @JsonBackReference
+    @JsonIgnoreProperties({"friends"})
+
+    private List<Profile> friends;
+
     public Profile(String name, int orderId, List<Publication> publications) {
         this.name = name;
         this.profileId = orderId;
         this.publications = publications;
+    }
+
+
+    public Profile(String name, int orderId, List<Publication> publications, List<Profile> friends) {
+        this.name = name;
+        this.profileId = orderId;
+        this.publications = publications;
+        this.friends = friends;
     }
 
     public Profile(){
@@ -94,8 +117,29 @@ public class Profile {
         }
     }
 
-    
+    public void addFriend(Profile friend){
+        this.friends.add(friend);
+    }
 
+    public Publication removeFriend(int index){
+        if(index < publications.size() && index > 0){
+            Publication publicationToDelete = publications.get(index);
+            publications.remove(index);
+            return publicationToDelete;
+        }else {
+            throw new IndexOutOfBoundsException();
+        }
+    }
+
+    public List<Profile> getFriends() {
+
+        if(this.friends==null){
+            return new ArrayList<Profile>();
+        }
+        List<Profile> list = new ArrayList<>(this.friends.size());
+        list.addAll(this.friends);
+        return list;
+    }
 
 
     
