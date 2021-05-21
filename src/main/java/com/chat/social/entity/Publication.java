@@ -62,10 +62,13 @@ public class Publication {
         this.profile = profile;
     }
 
-
-     
-
-
-
-
+    @Override
+    public boolean equals(Object obj){
+    if(this == obj)
+            return true;
+        if(obj == null || obj.getClass()!= this.getClass())
+            return false;
+        Publication publication = (Publication) obj;
+        return (publication.publicationId == this.publicationId && publication.message == this.message);
+    }
 }
