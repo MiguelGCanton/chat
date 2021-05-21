@@ -1,0 +1,93 @@
+#%RAML 1.0
+baseUri: 
+title: RegistrationsV2 Scouting ESB APIs
+version: 1.0
+
+/profiles:
+  get: 
+    description: returns a list with all the profiles in the database
+    responses:
+      body:
+        application/json:
+          example: |
+            [{
+              "name": "sergio"
+            }]
+  post: 
+    description: add a profile to the database
+    body:
+      application/json:
+          example: |
+          {
+              "profileId": 1,
+              "name": "sergio",
+              "publications": [],
+              "friends": []
+          }
+    response:
+      200:
+        body:
+          application/json:
+              example: |
+              {
+                  "profileId": 1,
+                  "name": "sergio",
+                  "publications": [],
+                  "friends": []
+              }
+    /{profileId}:
+      /friends:
+        /{friendId}:
+          description: user with profileId add user with friendId as a friend
+          post: 
+            response:
+              200:
+                body:
+                  application/json:
+                    example: |
+                      {
+                          "profileId": 1,
+                          "name": "sergio",
+                          "publications": [],
+                          "friends": [{
+                            "profileId": 2,
+                            "name": "hugo",
+                            "publications": [],
+                          }]
+                      }
+
+    /publications:
+      get:
+        description: returns all the publications from a user
+        response:
+          200:
+            body: 
+              application/json:
+                example: |
+                 [
+                   {
+                     "message": "message",
+                     "publicationId": 4
+                   }
+                 ]
+      post:
+        description: add a publication for the user with the profileId
+        body:
+          application/json:
+            example:
+              {
+              	"message": "message2"
+              }
+        responses:
+          200:
+            body:
+              application/json:
+                example: |
+                  {
+                    "message": "message2",
+                    "publicationId": 6
+                  }
+          400:
+          404:
+                              
+        

@@ -65,11 +65,14 @@ public class Profile {
     }
 
     public Profile(){
-
+        this.publications = new ArrayList<Publication>();
+        this.friends = new ArrayList<Profile>();
     }
 
     public Profile(String name){
         this.name = name;
+        this.publications = new ArrayList<Publication>();
+        this.friends = new ArrayList<Profile>();
     }
 
 
@@ -141,6 +144,14 @@ public class Profile {
         return list;
     }
 
-
+    @Override
+    public boolean equals(Object obj){
+    if(this == obj)
+            return true;
+        if(obj == null || obj.getClass()!= this.getClass())
+            return false;
+        Profile profile = (Profile) obj;
+        return (profile.profileId == this.profileId && profile.name == this.name);
+    }
     
 }
